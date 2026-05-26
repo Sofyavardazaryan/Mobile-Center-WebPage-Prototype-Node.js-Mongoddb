@@ -3,32 +3,23 @@ const { MongoClient } = require("mongodb");
 const URL = process.env.MONGO_URI;
 const DB_NAME = process.env.DB_NAME;
 
+let client;
 let db;
 
 async function connectDB() {
-
-    if (!db) {
-
-        const client = await MongoClient.connect(URL);
-
-        db = client.db(DB_NAME);
-
-        console.log("Mongo Connected");
-    }
-
-    return db;
+  if (!db) {
+    client = await MongoClient.connect(URL);
+    db = client.db(DB_NAME);
+  }
+  return db;
 }
 
-async function getProducts() {
+async function getAllProducts() {
+  const database = await connectDB();
 
-    const database = await connectDB();
-
-    return await database
-        .collection("products")
-        .find({})
-        .toArray();
+  return await database.collection("products").find({}).toArray();
 }
 
 module.exports = {
-    getProducts
+  getAllProducts,
 };

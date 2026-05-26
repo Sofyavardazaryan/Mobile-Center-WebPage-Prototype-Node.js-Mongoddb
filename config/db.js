@@ -4,25 +4,31 @@ require("dotenv").config();
 const URL = process.env.MONGO_URI;
 const DB_NAME = process.env.DB_NAME;
 
+if (!URL) {
+  throw new Error("MONGO_URI is not defined in .env");
+}
+
+if (!DB_NAME) {
+  throw new Error("DB_NAME is not defined in .env");
+}
+
 let client;
 let db;
+let connectPromise;
 
 async function connectDB() {
   try {
-    if (db) return db; // already connected
+    if (db) return db;
+    if (!connectPromise) {
+      client = new MongoClient(URL);
+      connectPromise = client.connect().then((connectedClient) => {
+        db = connectedClient.db(DB_NAME);
+        console.log("MongoDB Connected:", DB_NAME);
+        return db;
+      });
+    }
 
-    client = new MongoClient(URL, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-
-    await client.connect();
-
-    db = client.db(DB_NAME);
-
-    console.log("MongoDB Connected:", DB_NAME);
-
-    return db;
+    return await connectPromise;
   } catch (error) {
     console.error("MongoDB Connection Error:", error);
     process.exit(1);
@@ -41,6 +47,7 @@ async function closeDB() {
     await client.close();
     db = null;
     client = null;
+    connectPromise = null;
     console.log("MongoDB Disconnected");
   }
 }

@@ -1,42 +1,22 @@
-var express=require(
-    "express"
-);
+const express = require("express");
+const router = express.Router();
 
-var router=
-express.Router();
+const Product = require("../models/productModel");
 
-const {
-    getProducts
-}=require(
- "../models/productModel"
-);
+router.get("/", async (req, res) => {
+  try {
+    const products = await Product.getAllProducts();
 
-router.get(
-"/",
-async(req,res)=>{
+    res.render("products", {
+      products: products || [],
+    });
+  } catch (err) {
+    console.error(err);
 
-try{
-
-const products=
-await getProducts();
-
-res.render(
-"index",
-{products}
-);
-
-}
-catch(error){
-
-console.log(error);
-
-res.send(
-error.message
-);
-
-}
-
+    res.render("products", {
+      products: [],
+    });
+  }
 });
 
-module.exports=
-router;
+module.exports = router;

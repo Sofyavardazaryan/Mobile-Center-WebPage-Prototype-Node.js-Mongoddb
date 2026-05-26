@@ -4,16 +4,19 @@ exports.getProducts = async (req, res) => {
   try {
     const products = await Product.getAllProducts();
 
-    return res.render("index", {
+    res.render("index", {
       products,
       error: null,
     });
   } catch (err) {
-    console.error("Failed to load products:", err);
+    console.error("Failed to load products:", {
+      message: err.message,
+      stack: err.stack,
+    });
 
-    return res.render("index", {
+    res.render("index", {
       products: [],
-      error: "Failed to load products",
+      error: "Unable to load products. Please try again later.",
     });
   }
 };
