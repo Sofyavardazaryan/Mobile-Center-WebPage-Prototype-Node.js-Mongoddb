@@ -1,25 +1,19 @@
 const Product = require("../models/productModel");
 
 exports.getProducts = async (req, res) => {
+  try {
+    const products = await Product.getAllProducts();
 
-  const products =
-    await Product.getAllProducts();
+    return res.render("index", {
+      products,
+      error: null,
+    });
+  } catch (err) {
+    console.error("Failed to load products:", err);
 
-  res.render("products", {
-    products,
-  });
-
-};
-
-exports.getSingleProduct = async (req, res) => {
-
-  const product =
-    await Product.getProductById(
-      req.params.id
-    );
-
-  res.render("product-details", {
-    product,
-  });
-
+    return res.render("index", {
+      products: [],
+      error: "Failed to load products",
+    });
+  }
 };

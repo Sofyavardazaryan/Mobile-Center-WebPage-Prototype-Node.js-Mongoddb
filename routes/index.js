@@ -1,11 +1,17 @@
-const express = require("express");
-const router = express.Router();
-const homeController =
-  require("../controllers/homeController");
+var express=require("express");
+
+var router=
+express.Router();
 
 router.get(
-  "/",
-  homeController.getHomePage
-);
+    "/",
+    (req,res)=>{
 
-module.exports = router;
+    res.redirect(
+        "/products"
+    );
+
+});
+
+module.exports=
+router;

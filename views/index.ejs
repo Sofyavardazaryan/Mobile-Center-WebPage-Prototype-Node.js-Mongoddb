@@ -1,85 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-  <meta charset="UTF-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+<title>
+Mobile Center
+</title>
 
-  <title>MobileCentre</title>
-  <link rel="stylesheet" href="/stylesheets/style.css">
+<link rel="stylesheet"
+href="/stylesheets/style.css">
+
 </head>
 
 <body>
 
-<header>
+<h1>
+Products
+</h1>
 
-  <div class="navbar">
+<div class="products">
 
-    <h1>MobileCentre</h1>
+<% products.forEach(product=>{ %>
 
-    <nav>
-      <a href="/">Home</a>
-      <a href="/products">Products</a>
-      <a href="/admin/add">Add Product</a>
-    </nav>
+<div class="card">
 
-  </div>
+<img
+src="<%= product.image %>">
 
-</header>
+<h2>
+<%= product.name %>
+</h2>
 
-<section class="hero">
-
-  <h2>Latest Smartphones</h2>
-
-  <p>Best prices in Armenia</p>
-
-</section>
-
-<div class="products-grid">
-
-  <% products.forEach(product => { %>
-
-    <div class="card">
-
-      <img
-        src="<%= product.image %>"
-        alt=""
-      >
-
-      <h3><%= product.name %></h3>
-
-      <p><%= product.brand %></p>
-
-      <h4>$<%= product.price %></h4>
-
-      <div class="buttons">
-
-        <a href="/products/<%= product._id %>">
-          Details
-        </a>
-
-        <a href="/admin/edit/<%= product._id %>">
-          Edit
-        </a>
-
-        <a href="/admin/delete/<%= product._id %>">
-          Delete
-        </a>
-
-      </div>
-
-    </div>
-
-  <% }) %>
+<p>
+<%= product.price %> ֏
+</p>
 
 </div>
 
-<footer>
-  <p>© 2026 MobileCentre.am</p>
-</footer>
+<% }) %>
+
+</div>
 
 </body>
+
 </html>

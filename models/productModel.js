@@ -1,49 +1,34 @@
-const { ObjectId } = require("mongodb");
-const { getDB } = require("../db/db");
+const { MongoClient } = require("mongodb");
 
-async function getAllProducts() {
-  const db = getDB();
+const URL = process.env.MONGO_URI;
+const DB_NAME = process.env.DB_NAME;
 
-  return await db.collection("products").find().toArray();
-}
+let db;
 
-async function getProductById(id) {
-  const db = getDB();
+async function connectDB() {
 
-  return await db
-    .collection("products")
-    .findOne({ _id: new ObjectId(id) });
-}
+    if (!db) {
 
-async function createProduct(product) {
-  const db = getDB();
+        const client = await MongoClient.connect(URL);
 
-  return await db.collection("products").insertOne(product);
-}
+        db = client.db(DB_NAME);
 
-async function updateProduct(id, product) {
-  const db = getDB();
-
-  return await db.collection("products").updateOne(
-    { _id: new ObjectId(id) },
-    {
-      $set: product,
+        console.log("Mongo Connected");
     }
-  );
+
+    return db;
 }
 
-async function deleteProduct(id) {
-  const db = getDB();
+async function getProducts() {
 
-  return await db
-    .collection("products")
-    .deleteOne({ _id: new ObjectId(id) });
+    const database = await connectDB();
+
+    return await database
+        .collection("products")
+        .find({})
+        .toArray();
 }
 
 module.exports = {
-  getAllProducts,
-  getProductById,
-  createProduct,
-  updateProduct,
-  deleteProduct,
+    getProducts
 };
