@@ -1,77 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Products</title>
+    <title>Product Details</title>
 
-  <link rel="stylesheet" href="/css/style.css">
-</head>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
 
-<body>
+  <body>
+    <header>
+      <div class="navbar">
+        <h1>MobileCentre</h1>
 
-<header>
-
-  <div class="navbar">
-
-    <h1>MobileCenter</h1>
-
-    <nav>
-      <a href="/">Home</a>
-      <a href="/products">Products</a>
-      <a href="/products/add">Add Product</a>
-    </nav>
-
-  </div>
-
-</header>
-
-<h2 class="page-title">All Products</h2>
-
-<div class="products-grid">
-
-  <% products.forEach(product => { %>
-
-    <div class="card">
-
-      <img src="<%= product.image %>" alt="">
-
-      <h3><%= product.name %></h3>
-
-      <p><%= product.brand %></p>
-
-      <h4>$<%= product.price %></h4>
-
-      <div class="buttons">
-
-        <a href="/products/<%= product._id %>">
-          Details
-        </a>
-
-        <a href="/products/edit/<%= product._id %>">
-          Edit
-        </a>
-
-        <a href="/products/delete/<%= product._id %>">
-          Delete
-        </a>
-
+        <nav>
+          <a href="/">Home</a>
+          <a href="/products">Products</a>
+          <a href="/admin/add">Add Product</a>
+        </nav>
       </div>
+    </header>
 
+    <div class="details-container">
+      <img src="<%= product.image %>" alt="" />
+
+      <div class="details-info">
+        <h2><%= product.name %></h2>
+
+        <h3><%= product.brand %></h3>
+
+        <h1>$<%= product.price %></h1>
+
+        <p><%= product.description %></p>
+      </div>
     </div>
 
-  <% }) %>
-
-</div>
-
-<footer>
-  <p>© 2026 MobileCenter.am</p>
-</footer>
-
-</body>
+    <footer>
+      <p>© 2026 MobileCentre.am</p>
+    </footer>
+  </body>
 </html>
