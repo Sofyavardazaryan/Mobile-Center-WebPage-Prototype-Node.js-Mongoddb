@@ -1,5 +1,5 @@
 const { ObjectId } = require("mongodb");
-const { getDB } = require("../config/db");
+const { getDB } = require("../db/db");
 
 async function getAllProducts() {
   const db = getDB();
